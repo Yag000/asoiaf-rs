@@ -1,7 +1,26 @@
+use self::pagination::Pagination;
+
 pub mod pagination;
 
+/// Trait that is used to convert a struct to a url.
+/// It is used to make requests to the API.
 pub(crate) trait ToUrl {
     fn to_url(&self) -> String;
+}
+
+/// Struct that is used to make book requests to the API.
+pub(crate) struct BookRequest {
+    pagination: Option<Pagination>,
+}
+
+impl ToUrl for BookRequest {
+    fn to_url(&self) -> String {
+        let mut url = String::from("books");
+        if let Some(pagination) = &self.pagination {
+            url.push_str(&pagination.to_url());
+        }
+        url
+    }
 }
 
 /// Wrapper for the [`reqwest::Client`] struct that contains the token
