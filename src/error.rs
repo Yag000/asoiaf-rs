@@ -4,6 +4,7 @@ use std::fmt::{self, Display, Formatter};
 pub enum Error {
     RequestError(reqwest::Error),
     ParseError(serde_json::Error),
+    NoMorePages,
 }
 
 impl From<reqwest::Error> for Error {
@@ -23,6 +24,7 @@ impl Display for Error {
         match self {
             Error::RequestError(error) => write!(f, "RequestError: {}", error),
             Error::ParseError(error) => write!(f, "ParseError: {}", error),
+            Error::NoMorePages => write!(f, "NoMorePages"),
         }
     }
 }

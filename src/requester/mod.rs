@@ -1,6 +1,7 @@
 use self::pagination::Pagination;
 
 pub mod pagination;
+pub mod request;
 
 /// Trait that is used to convert a struct to a url.
 /// It is used to make requests to the API.
@@ -8,28 +9,22 @@ pub(crate) trait ToUrl {
     fn to_url(&self) -> String;
 }
 
-/// Struct that is used to make book requests to the API.
-pub(crate) struct BookRequest {
-    pagination: Option<Pagination>,
-}
-
-impl ToUrl for BookRequest {
-    fn to_url(&self) -> String {
-        let mut url = String::from("books");
-        if let Some(pagination) = &self.pagination {
-            url.push_str(&pagination.to_url());
-        }
-        url
-    }
+pub trait ToRequest {
+    fn to_request(&self) -> String;
+    fn update_pagination(&mut self, pagination: Pagination);
+    fn next_page(&mut self);
 }
 
 /// Wrapper for the [`reqwest::Client`] struct that contains the token
 /// and the actual url that is used to make the request.
 /// It is used to make requests to the API.
-pub async fn get(url: &str) -> Result<String, reqwest::Error> {
+pub(crate) async fn get(request: &impl ToRequest) -> Result<String, reqwest::Error> {
     let client = reqwest::Client::new();
     match client
-        .get(format!("https://www.anapioficeandfire.com/api/{}", url))
+        .get(format!(
+            "https://www.anapioficeandfire.com/api/{}",
+            request.to_request()
+        ))
         .send()
         .await
     {
@@ -44,10 +39,12 @@ pub async fn get(url: &str) -> Result<String, reqwest::Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::requester::request::BookRequest;
 
     #[tokio::test]
     async fn test_get() {
-        let response = get("books").await;
+        let request = BookRequest::default();
+        let response = get(&request).await;
         assert!(response.is_ok());
         assert!(!response.unwrap().is_empty());
     }
