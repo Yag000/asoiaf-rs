@@ -1,10 +1,14 @@
-use std::fmt::{self, Display, Formatter};
+use std::{
+    fmt::{self, Display, Formatter},
+    io,
+};
 
 #[derive(Debug)]
 pub enum Error {
     RequestError(reqwest::Error),
     ParseError(serde_json::Error),
     NoMorePages,
+    CacheMiss,
 }
 
 impl From<reqwest::Error> for Error {
@@ -25,6 +29,7 @@ impl Display for Error {
             Error::RequestError(error) => write!(f, "RequestError: {}", error),
             Error::ParseError(error) => write!(f, "ParseError: {}", error),
             Error::NoMorePages => write!(f, "NoMorePages"),
+            Error::CacheMiss => write!(f, "CacheMiss"),
         }
     }
 }

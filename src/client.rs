@@ -5,6 +5,7 @@ use crate::{
         Book, Character, House,
     },
     requester::{
+        create_cache_dir,
         filter::{BookFilter, CharacterFilter, HouseFilter},
         get,
         pagination::Pagination,
@@ -18,6 +19,7 @@ pub struct Client {}
 
 impl Client {
     pub fn new() -> Self {
+        create_cache_dir();
         Self {}
     }
 
@@ -25,8 +27,8 @@ impl Client {
     where
         T: serde::de::DeserializeOwned,
     {
-        println!("request: {}", request.to_request());
         let answer = get(request).await?;
+
         let answer = serde_json::from_str::<Vec<T>>(&answer)?;
         Ok(answer)
     }
