@@ -5,7 +5,6 @@ use crate::{
         Book, Character, House,
     },
     requester::{
-        create_cache_dir,
         filter::{BookFilter, CharacterFilter, HouseFilter},
         get,
         pagination::Pagination,
@@ -19,7 +18,6 @@ pub struct Client {}
 
 impl Client {
     pub fn new() -> Self {
-        create_cache_dir();
         Self {}
     }
 

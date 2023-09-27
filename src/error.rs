@@ -1,7 +1,4 @@
-use std::{
-    fmt::{self, Display, Formatter},
-    io,
-};
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug)]
 pub enum Error {
