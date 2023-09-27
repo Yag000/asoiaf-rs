@@ -1,5 +1,6 @@
 use self::pagination::Pagination;
 
+pub mod filter;
 pub mod pagination;
 pub mod request;
 

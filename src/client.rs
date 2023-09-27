@@ -5,6 +5,7 @@ use crate::{
         Book, Character, House,
     },
     requester::{
+        filter::{BookFilter, CharacterFilter, HouseFilter},
         get,
         pagination::Pagination,
         request::{BookRequest, CharacterRequest, HouseRequest},
@@ -40,6 +41,13 @@ impl Client {
         BookIterator::new(request)
     }
 
+    pub fn get_book_filter_iterator(&self, book_filter: BookFilter, limit: usize) -> BookIterator {
+        let request = BookRequest::default()
+            .pagination(Pagination::new(1, limit))
+            .filter(book_filter);
+        BookIterator::new(request)
+    }
+
     pub async fn get_characters(&self) -> Result<Vec<Character>, Error> {
         let request = CharacterRequest::default().pagination(Pagination::new(1, 1000));
         self.get_request(&request).await
@@ -49,6 +57,18 @@ impl Client {
         let request = CharacterRequest::default().pagination(Pagination::new(1, limit));
         CharacterIterator::new(request)
     }
+
+    pub fn get_character_filter_iterator(
+        &self,
+        character_filter: CharacterFilter,
+        limit: usize,
+    ) -> CharacterIterator {
+        let request = CharacterRequest::default()
+            .pagination(Pagination::new(1, limit))
+            .filter(character_filter);
+        CharacterIterator::new(request)
+    }
+
     pub async fn get_houses(&self) -> Result<Vec<House>, Error> {
         let request = HouseRequest::default();
         self.get_request(&request).await
@@ -56,6 +76,17 @@ impl Client {
 
     pub fn get_house_iterator(&self, limit: usize) -> HouseIterator {
         let request = HouseRequest::default().pagination(Pagination::new(1, limit));
+        HouseIterator::new(request)
+    }
+
+    pub fn get_house_filter_iterator(
+        &self,
+        house_filter: HouseFilter,
+        limit: usize,
+    ) -> HouseIterator {
+        let request = HouseRequest::default()
+            .pagination(Pagination::new(1, limit))
+            .filter(house_filter);
         HouseIterator::new(request)
     }
 }
