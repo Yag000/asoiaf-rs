@@ -4,7 +4,7 @@ A Rust library for interacting with the [An API of Ice and Fire](https://anapiof
 
 ## Usage
 
-There is more documentation available on the [docs.rs](https://docs.rs/lotr-api/latest/asoiaf_api/) page.
+There is more documentation available on the [docs.rs](https://docs.rs/asoiaf_api/latest/asoiaf_api/) page.
 
 ```rust
 use asoiaf_api::Client;

@@ -1,4 +1,4 @@
-//! # asoiaf-rs
+//! # asoiaf-api
 //!
 //! This is a library for interacting with the [An API of Ice and Fire](https://anapioficeandfire.com/).
 //! # Examples
