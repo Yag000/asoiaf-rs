@@ -13,6 +13,10 @@ use crate::{
     },
 };
 
+/**
+ * The main struct of this library. It is used to make requests to the API.
+ * It holds methods to get all the items of a type, or to iterate over them.
+ */
 #[derive(Default)]
 pub struct Client {}
 
